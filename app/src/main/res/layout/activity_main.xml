@@ -54,17 +54,18 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_alarmas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingTop="5dp"
+            android:paddingTop="7dp"
             android:paddingBottom="60dp"
             tools:listitem="@layout/item_alarma"
             tools:itemCount="8"/>
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/fab_add_alarma"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"

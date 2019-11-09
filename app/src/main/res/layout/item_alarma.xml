@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="10dp"
-    android:layout_marginTop="5dp"
+    android:layout_marginTop="7dp"
     android:layout_marginRight="10dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginBottom="7dp"
     app:cardCornerRadius="20dp"
     app:cardElevation="0dp">
 
@@ -29,6 +29,7 @@
 
 
             <TextView
+                android:id="@+id/item_txt_hora"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="12:09"
@@ -36,16 +37,19 @@
                 android:textSize="22sp" />
 
             <TextView
+                android:id="@+id/item_txt_am_pm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="AM"
-                android:textColor="@color/negro" />
+                android:textColor="@color/negro"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
 
         <Switch
+            android:id="@+id/item_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp" />
