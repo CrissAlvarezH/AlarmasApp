@@ -18,7 +18,7 @@ class AlarmasAdapter (alarmas: MutableList<Alarma>) : RecyclerView.Adapter<Alarm
         }
 
     interface OnHabilitarAlarmaListener {
-        fun onHablitiarAlarma(alarma: Alarma, posicion: Int)
+        fun onHabilitarAlarma(alarma: Alarma, posicion: Int)
     }
 
     interface OnLongClickAlarmaListener {
@@ -39,7 +39,7 @@ class AlarmasAdapter (alarmas: MutableList<Alarma>) : RecyclerView.Adapter<Alarm
 
                 alarmas[adapterPosition].habilitada = isChecked
 
-                onHabilitarAlarmaListener?.onHablitiarAlarma(alarmas[adapterPosition], adapterPosition)
+                onHabilitarAlarmaListener?.onHabilitarAlarma(alarmas[adapterPosition], adapterPosition)
 
             }
 

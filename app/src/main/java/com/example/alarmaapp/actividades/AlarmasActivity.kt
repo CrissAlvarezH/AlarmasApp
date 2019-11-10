@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity(), AlarmasAdapter.OnHabilitarAlarmaListen
         }
     }
 
-    override fun onHablitiarAlarma(alarma: Alarma, posicion: Int) {
+    override fun onHabilitarAlarma(alarma: Alarma, posicion: Int) {
 
         if (alarma.habilitada) {
 
