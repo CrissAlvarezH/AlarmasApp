@@ -37,7 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="60dp"
@@ -59,9 +60,9 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="7dp"
-            android:paddingBottom="60dp"
-            tools:listitem="@layout/item_alarma"
-            tools:itemCount="8"/>
+            android:paddingBottom="80dp"
+            tools:itemCount="8"
+            tools:listitem="@layout/item_alarma" />
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -69,8 +70,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:onClick="clickAddAlarma"
             android:layout_margin="15dp"
+            android:onClick="clickAddAlarma"
             android:src="@drawable/ic_add_alarm" />
 
     </FrameLayout>

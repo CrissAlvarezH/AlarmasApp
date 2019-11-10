@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AlarmaApp</string>
+    <string name="db_name">AlarmaAppDB</string>
 </resources>

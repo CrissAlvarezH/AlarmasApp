@@ -1,39 +1,54 @@
 package com.example.alarmaapp.actividades
 
 import android.app.*
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.example.alarmaapp.R
 import com.example.alarmaapp.adaptadores.AlarmasAdapter
+import com.example.alarmaapp.basedatos.AppDataBase
 import com.example.alarmaapp.modelos.Alarma
-import com.example.alarmaapp.receivers.AlarmaReceiver
 import com.example.alarmaapp.utils.AlarmasUtils
 import java.util.*
 
 const val COD_CREAR_ALARMA = 354
 
-class MainActivity : AppCompatActivity(), AlarmasAdapter.OnHabilitarAlarmaListener {
+class MainActivity : AppCompatActivity(), AlarmasAdapter.OnHabilitarAlarmaListener,
+    AlarmasAdapter.OnLongClickAlarmaListener {
 
     var contNoHayAlarmas: LinearLayout? = null
     var recyclerAlarmas: RecyclerView? = null
 
     var alarmasAdapter: AlarmasAdapter? = null
 
+    var db: AppDataBase? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_alarmas)
 
         enlazarXML();
 
+        db = Room.databaseBuilder(
+            applicationContext,
+            AppDataBase::class.java,
+            getString(R.string.db_name)
+        ).build()
+
+        Thread { // El acceso a la base de datos se debe hacer en otro hilo
+            val alarmas = db?.alarmaDAO()?.getTodas() ?: mutableListOf()
+
+            runOnUiThread {
+                alarmasAdapter?.alarmas = alarmas
+                toggleVisibilidadTxtNoHayAlarmas()
+            }
+
+        }.start()
     }
 
     private fun enlazarXML() {
@@ -45,9 +60,9 @@ class MainActivity : AppCompatActivity(), AlarmasAdapter.OnHabilitarAlarmaListen
 
         alarmasAdapter = AlarmasAdapter(mutableListOf())
         alarmasAdapter?.onHabilitarAlarmaListener = this
+        alarmasAdapter?.onLongClickAlarmaListener = this
         recyclerAlarmas?.adapter = alarmasAdapter
 
-        toggleVisibilidadTxtNoHayAlarmas()
     }
 
     private fun toggleVisibilidadTxtNoHayAlarmas() {
@@ -77,9 +92,18 @@ class MainActivity : AppCompatActivity(), AlarmasAdapter.OnHabilitarAlarmaListen
 
                     val alarma = Alarma(hora, minutos, habilitada = false)
 
-                    alarmasAdapter?.agregarAlarma(alarma)
+                    Thread { // El acceso a la base de datos se debe hacer en otro hilo
 
-                    toggleVisibilidadTxtNoHayAlarmas()
+                        db?.alarmaDAO()?.insert(alarma)
+
+
+                        runOnUiThread {
+                            alarmasAdapter?.agregarAlarma(alarma)
+
+                            toggleVisibilidadTxtNoHayAlarmas()
+                        }
+
+                    }.start()
                 }
             }
 
@@ -101,6 +125,33 @@ class MainActivity : AppCompatActivity(), AlarmasAdapter.OnHabilitarAlarmaListen
             AlarmasUtils.deshabilidatAlarma(this, posicion)
         }
 
+    }
+
+    override fun onLongClickAlarma(alarma: Alarma, posicion: Int) {
+
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("¿Seguro que quieres eliminar la alarma de ${ alarma.horaFormateada }${ alarma.amPm }?")
+            .setPositiveButton("SI") {_, _ ->
+
+                Thread {
+
+                    db?.alarmaDAO()?.delete(alarma)
+
+                    runOnUiThread {
+
+                        alarmasAdapter?.eliminarAlarma(alarma)
+
+                        toggleVisibilidadTxtNoHayAlarmas()
+
+                    }
+                }.start()
+
+            }
+            .setNegativeButton("NO", null)
+            .create()
+
+        if ( !isFinishing )
+            dialog.show()
     }
 
 }

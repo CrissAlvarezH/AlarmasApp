@@ -1,8 +1,20 @@
 package com.example.alarmaapp.modelos
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import kotlin.math.min
 
-class Alarma(var hora: Int, var minutos: Int, var habilitada: Boolean) {
+@Entity (tableName = "alarmas")
+class Alarma(
+    var hora: Int,
+    var minutos: Int,
+    var habilitada: Boolean
+) {
+
+    @PrimaryKey (autoGenerate = true)
+    var id: Int = 0
     var amPm: String = "AM"
     var horaFormateada: String = ""
 

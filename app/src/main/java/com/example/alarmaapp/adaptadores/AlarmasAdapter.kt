@@ -21,7 +21,12 @@ class AlarmasAdapter (alarmas: MutableList<Alarma>) : RecyclerView.Adapter<Alarm
         fun onHablitiarAlarma(alarma: Alarma, posicion: Int)
     }
 
+    interface OnLongClickAlarmaListener {
+        fun onLongClickAlarma(alarma: Alarma, posicion: Int)
+    }
+
     var onHabilitarAlarmaListener: OnHabilitarAlarmaListener? = null
+    var onLongClickAlarmaListener: OnLongClickAlarmaListener? = null
 
     inner class AlarmasViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -36,6 +41,13 @@ class AlarmasAdapter (alarmas: MutableList<Alarma>) : RecyclerView.Adapter<Alarm
 
                 onHabilitarAlarmaListener?.onHablitiarAlarma(alarmas[adapterPosition], adapterPosition)
 
+            }
+
+            itemView.setOnLongClickListener {_ ->
+
+                onLongClickAlarmaListener?.onLongClickAlarma(alarmas[adapterPosition], adapterPosition)
+
+                true
             }
         }
     }
@@ -62,5 +74,13 @@ class AlarmasAdapter (alarmas: MutableList<Alarma>) : RecyclerView.Adapter<Alarm
     fun agregarAlarma(alarma: Alarma) {
         alarmas.add(alarma)
         notifyItemInserted( alarmas.size - 1 )
+    }
+
+    fun eliminarAlarma(alarma: Alarma) {
+        val indice = alarmas.indexOf(alarma)
+
+        alarmas.remove(alarma)
+
+        notifyItemRemoved(indice)
     }
 }
