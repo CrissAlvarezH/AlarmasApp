@@ -5,16 +5,26 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat.getSystemService
+import com.example.alarmaapp.actividades.CrearAlarmaActivity
 import com.example.alarmaapp.receivers.AlarmaReceiver
 import java.util.*
 
 class AlarmasUtils {
 
+    class Extras {
+        companion object {
+            const val HORA = "hora"
+        }
+    }
+
     companion object {
 
-        fun habilitarAlarma(contexto: Context, calendar: Calendar, codAlarma: Int) {
+        fun habilitarAlarma(contexto: Context, calendar: Calendar, hora: String, codAlarma: Int) {
             val alarmManager: AlarmManager = contexto.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val intent = Intent(contexto, AlarmaReceiver::class.java)
+
+            val intent = Intent(contexto, AlarmaReceiver::class.java).apply {
+                putExtra(CrearAlarmaActivity.Args.HORA, hora)
+            }
 
             val pendingIntent = PendingIntent.getBroadcast(contexto, codAlarma, intent, 0)
 

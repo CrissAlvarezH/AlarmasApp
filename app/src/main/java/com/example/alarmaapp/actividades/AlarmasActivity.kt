@@ -1,14 +1,15 @@
 package com.example.alarmaapp.actividades
 
-import android.app.Activity
-import android.app.AlarmManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alarmaapp.R
@@ -94,15 +95,12 @@ class MainActivity : AppCompatActivity(), AlarmasAdapter.OnHabilitarAlarmaListen
             calendar.set(Calendar.MINUTE, alarma.minutos)
             calendar.set(Calendar.SECOND, 0)
 
-            AlarmasUtils.habilitarAlarma(this, calendar, posicion)
+            AlarmasUtils.habilitarAlarma(this, calendar, alarma.horaFormateada, posicion)
 
         } else {
             AlarmasUtils.deshabilidatAlarma(this, posicion)
         }
 
     }
-
-
-
 
 }
