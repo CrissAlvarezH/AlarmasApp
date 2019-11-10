@@ -60,11 +60,17 @@ class AlarmasAdapter (alarmas: MutableList<Alarma>) : RecyclerView.Adapter<Alarm
     }
 
     override fun onBindViewHolder(holder: AlarmasViewHolder, position: Int) {
+        // Quitamos el listener para que no se active al setear el campo del swith aquí
+        val listenerAux = onHabilitarAlarmaListener;
+        onHabilitarAlarmaListener = null
+
         val alarma = alarmas[position];
 
         holder.txtHora.text = alarma.horaFormateada;
         holder.txtAmPm.text = alarma.amPm
         holder.switchOnOff.isChecked = alarma.habilitada
+
+        onHabilitarAlarmaListener = listenerAux
     }
 
     override fun getItemCount(): Int {

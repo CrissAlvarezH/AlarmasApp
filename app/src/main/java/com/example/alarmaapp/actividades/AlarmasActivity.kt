@@ -112,19 +112,26 @@ class MainActivity : AppCompatActivity(), AlarmasAdapter.OnHabilitarAlarmaListen
 
     override fun onHabilitarAlarma(alarma: Alarma, posicion: Int) {
 
-        if (alarma.habilitada) {
+        Thread {
 
-            val calendar = Calendar.getInstance()
-            calendar.set(Calendar.HOUR_OF_DAY, alarma.hora)
-            calendar.set(Calendar.MINUTE, alarma.minutos)
-            calendar.set(Calendar.SECOND, 0)
+            db?.alarmaDAO()?.actualizarHabilitada(alarma.id, alarma.habilitada)
 
-            AlarmasUtils.habilitarAlarma(this, calendar, alarma.horaFormateada, posicion)
+            runOnUiThread {
 
-        } else {
-            AlarmasUtils.deshabilidatAlarma(this, posicion)
-        }
+                if (alarma.habilitada) {
 
+                    val calendar = Calendar.getInstance()
+                    calendar.set(Calendar.HOUR_OF_DAY, alarma.hora)
+                    calendar.set(Calendar.MINUTE, alarma.minutos)
+                    calendar.set(Calendar.SECOND, 0)
+
+                    AlarmasUtils.habilitarAlarma(this, calendar, alarma.horaFormateada, posicion)
+
+                } else {
+                    AlarmasUtils.deshabilidatAlarma(this, posicion)
+                }
+            }
+        }.start()
     }
 
     override fun onLongClickAlarma(alarma: Alarma, posicion: Int) {

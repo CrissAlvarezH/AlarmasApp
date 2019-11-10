@@ -15,6 +15,9 @@ interface AlarmaDAO {
     @Query("SELECT * FROM alarmas")
     fun getTodas(): MutableList<Alarma>
 
+    @Query("UPDATE alarmas SET habilitada = :habilitada WHERE id = :idAlarma")
+    fun actualizarHabilitada(idAlarma: Int, habilitada: Boolean)
+
     @Delete
     fun delete(alarma: Alarma)
 
