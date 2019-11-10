@@ -129,10 +129,10 @@ class MainActivity : AppCompatActivity(), AlarmasAdapter.OnHabilitarAlarmaListen
                     calendar.set(Calendar.MINUTE, alarma.minutos)
                     calendar.set(Calendar.SECOND, 0)
 
-                    AlarmasUtils.habilitarAlarma(this, calendar, alarma.horaFormateada, posicion)
+                    AlarmasUtils.habilitarAlarma(this, calendar, alarma.horaFormateada, alarma.id.toInt())
 
                 } else {
-                    AlarmasUtils.deshabilidatAlarma(this, posicion)
+                    AlarmasUtils.deshabilidatAlarma(this, alarma.id.toInt())
                 }
             }
         }.start()
