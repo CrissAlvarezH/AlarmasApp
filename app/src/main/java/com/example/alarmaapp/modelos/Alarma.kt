@@ -1,4 +1,4 @@
-package com.example.alarmaapp
+package com.example.alarmaapp.modelos
 
 import kotlin.math.min
 

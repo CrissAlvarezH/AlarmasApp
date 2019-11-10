@@ -1,19 +1,26 @@
-package com.example.alarmaapp
+package com.example.alarmaapp.actividades
 
 import android.app.Activity
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlin.math.min
+import com.example.alarmaapp.R
+import com.example.alarmaapp.adaptadores.AlarmasAdapter
+import com.example.alarmaapp.modelos.Alarma
+import com.example.alarmaapp.receivers.AlarmaReceiver
+import com.example.alarmaapp.utils.AlarmasUtils
+import java.util.*
 
 const val COD_CREAR_ALARMA = 354
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AlarmasAdapter.OnHabilitarAlarmaListener {
 
     var contNoHayAlarmas: LinearLayout? = null
     var recyclerAlarmas: RecyclerView? = null
@@ -36,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         recyclerAlarmas?.layoutManager = lmAlarmas
 
         alarmasAdapter = AlarmasAdapter(mutableListOf())
+        alarmasAdapter?.onHabilitarAlarmaListener = this
         recyclerAlarmas?.adapter = alarmasAdapter
 
         toggleVisibilidadTxtNoHayAlarmas()
@@ -63,12 +71,11 @@ class MainActivity : AppCompatActivity() {
             when (requestCode) {
                 COD_CREAR_ALARMA ->{
 
-                    val hora = data?.getIntExtra( CrearAlarmaActivity.Args.HORA, 0 ) ?: 0
-                    val minutos = data?.getIntExtra( CrearAlarmaActivity.Args.MINUTOS, 0 ) ?: 0
+                    val hora = data?.getIntExtra(CrearAlarmaActivity.Args.HORA, 0 ) ?: 0
+                    val minutos = data?.getIntExtra(CrearAlarmaActivity.Args.MINUTOS, 0 ) ?: 0
 
-                    Log.v("PRUEBA", "Hora: ${ hora }, minutos: ${ minutos }")
+                    val alarma = Alarma(hora, minutos, habilitada = false)
 
-                    val alarma = Alarma(hora, minutos, habilitada = true)
                     alarmasAdapter?.agregarAlarma(alarma)
 
                     toggleVisibilidadTxtNoHayAlarmas()
@@ -77,4 +84,25 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+
+    override fun onHablitiarAlarma(alarma: Alarma, posicion: Int) {
+
+        if (alarma.habilitada) {
+
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, alarma.hora)
+            calendar.set(Calendar.MINUTE, alarma.minutos)
+            calendar.set(Calendar.SECOND, 0)
+
+            AlarmasUtils.habilitarAlarma(this, calendar, posicion)
+
+        } else {
+            AlarmasUtils.deshabilidatAlarma(this, posicion)
+        }
+
+    }
+
+
+
+
 }

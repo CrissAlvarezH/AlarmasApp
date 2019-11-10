@@ -9,8 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CrearAlarmaActivity"></activity>
-        <activity android:name=".MainActivity">
+        <receiver
+            android:name=".receivers.AlarmaReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
+        <activity android:name=".actividades.CrearAlarmaActivity" />
+        <activity android:name=".actividades.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package com.example.alarmaapp
+package com.example.alarmaapp.actividades
 
 import android.app.Activity
 import android.content.Intent
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TimePicker
+import com.example.alarmaapp.R
 
 class CrearAlarmaActivity : AppCompatActivity() {
 

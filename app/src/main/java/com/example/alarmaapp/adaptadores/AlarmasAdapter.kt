@@ -1,4 +1,4 @@
-package com.example.alarmaapp
+package com.example.alarmaapp.adaptadores
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.alarmaapp.R
+import com.example.alarmaapp.modelos.Alarma
 
 class AlarmasAdapter (alarmas: MutableList<Alarma>) : RecyclerView.Adapter<AlarmasAdapter.AlarmasViewHolder>() {
 
@@ -14,6 +16,12 @@ class AlarmasAdapter (alarmas: MutableList<Alarma>) : RecyclerView.Adapter<Alarm
             field = value;
             notifyDataSetChanged()
         }
+
+    interface OnHabilitarAlarmaListener {
+        fun onHablitiarAlarma(alarma: Alarma, posicion: Int)
+    }
+
+    var onHabilitarAlarmaListener: OnHabilitarAlarmaListener? = null
 
     inner class AlarmasViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -25,6 +33,8 @@ class AlarmasAdapter (alarmas: MutableList<Alarma>) : RecyclerView.Adapter<Alarm
             switchOnOff.setOnCheckedChangeListener {_, isChecked ->
 
                 alarmas[adapterPosition].habilitada = isChecked
+
+                onHabilitarAlarmaListener?.onHablitiarAlarma(alarmas[adapterPosition], adapterPosition)
 
             }
         }
