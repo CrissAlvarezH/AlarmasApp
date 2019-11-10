@@ -40,13 +40,17 @@ class AlarmasAdapter (alarmas: MutableList<Alarma>) : RecyclerView.Adapter<Alarm
     override fun onBindViewHolder(holder: AlarmasViewHolder, position: Int) {
         val alarma = alarmas[position];
 
-        holder.txtHora.text = alarma.hora;
-        holder.txtAmPm.text = "AM"
-        holder.switchOnOff.isSelected = alarma.habilitada
+        holder.txtHora.text = alarma.horaFormateada;
+        holder.txtAmPm.text = alarma.amPm
+        holder.switchOnOff.isChecked = alarma.habilitada
     }
 
     override fun getItemCount(): Int {
         return alarmas.size
     }
 
+    fun agregarAlarma(alarma: Alarma) {
+        alarmas.add(alarma)
+        notifyItemInserted( alarmas.size - 1 )
+    }
 }

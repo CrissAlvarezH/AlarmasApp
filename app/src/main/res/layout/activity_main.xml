@@ -69,6 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
+            android:onClick="clickAddAlarma"
             android:layout_margin="15dp"
             android:src="@drawable/ic_add_alarm" />
 
