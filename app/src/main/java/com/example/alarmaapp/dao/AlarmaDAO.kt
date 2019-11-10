@@ -10,13 +10,13 @@ import com.example.alarmaapp.modelos.Alarma
 interface AlarmaDAO {
 
     @Insert
-    fun insert(alarma: Alarma)
+    fun insert(alarma: Alarma): Long
 
     @Query("SELECT * FROM alarmas")
     fun getTodas(): MutableList<Alarma>
 
     @Query("UPDATE alarmas SET habilitada = :habilitada WHERE id = :idAlarma")
-    fun actualizarHabilitada(idAlarma: Int, habilitada: Boolean)
+    fun actualizarHabilitada(idAlarma: Long, habilitada: Boolean)
 
     @Delete
     fun delete(alarma: Alarma)

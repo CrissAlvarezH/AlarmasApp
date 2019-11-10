@@ -4,6 +4,7 @@ import android.app.*
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -94,10 +95,13 @@ class MainActivity : AppCompatActivity(), AlarmasAdapter.OnHabilitarAlarmaListen
 
                     Thread { // El acceso a la base de datos se debe hacer en otro hilo
 
-                        db?.alarmaDAO()?.insert(alarma)
+                        val id = db?.alarmaDAO()?.insert(alarma) ?: 0
+                        Log.v("PROBANDO", "Id insertado: &${ id }")
 
+                        alarma.id = id
 
                         runOnUiThread {
+
                             alarmasAdapter?.agregarAlarma(alarma)
 
                             toggleVisibilidadTxtNoHayAlarmas()

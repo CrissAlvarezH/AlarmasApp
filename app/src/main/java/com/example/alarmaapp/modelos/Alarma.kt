@@ -14,7 +14,7 @@ class Alarma(
 ) {
 
     @PrimaryKey (autoGenerate = true)
-    var id: Int = 0
+    var id: Long = 0
     var amPm: String = "AM"
     var horaFormateada: String = ""
 
